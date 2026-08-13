@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Terms &amp; Conditions — SnapFind</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color: #334155; max-width: 720px; margin: 0 auto; padding: 48px 24px; line-height: 1.7; }
+    h1 { color: #0f172a; font-size: 30px; }
+    h2 { color: #0f172a; font-size: 18px; margin-top: 32px; }
+    .kicker { color: #1D4A60; font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; }
+    .muted { color: #94a3b8; font-size: 13px; }
+    a { color: #1D4A60; }
+    .note { background: #f8fafc; border-radius: 12px; padding: 14px; font-size: 12px; color: #64748b; margin-top: 32px; }
+  </style>
+</head>
+<body>
+  <p class="kicker">SnapFind</p>
+  <h1>Terms &amp; Conditions</h1>
+  <p class="muted">Last updated: <span id="date"></span></p>
+  <script>document.getElementById("date").textContent = new Date().toLocaleDateString();</script>
+
+  <h2>1. The service</h2>
+  <p>SnapFind is a visual search tool that helps you find clothing items from images. The service is provided &ldquo;as is&rdquo; and &ldquo;as available&rdquo;.</p>
+
+  <h2>2. No guarantee of matches</h2>
+  <p>We work hard to return exact matches, but we do not guarantee that every search will return the exact item. Results labeled &ldquo;close alternative&rdquo; are similar items, not the same product, and should be treated as such.</p>
+
+  <h2>3. Affiliate disclosure</h2>
+  <p>We may receive a commission when you buy through links on SnapFind. This does not change the price you pay and does not influence which results we show.</p>
+
+  <h2>4. Acceptable use</h2>
+  <p>You agree not to misuse the service — including attempting to disrupt it, scrape it at scale, or use it for unlawful purposes. Prices and availability shown come from retailer data and may change; verify before purchasing.</p>
+
+  <h2>5. Intellectual property</h2>
+  <p>The SnapFind name, logo, and site content belong to us. Product names, images, and trademarks belong to their respective owners and are shown only to identify products.</p>
+
+  <h2>6. Liability</h2>
+  <p>To the maximum extent permitted by law, SnapFind is not liable for damages arising from use of the service, including incorrect matches, unavailable products, or purchases made through third-party retailers.</p>
+
+  <h2>7. Changes &amp; contact</h2>
+  <p>We may update these terms from time to time; continued use means you accept the changes. Questions? Contact <a href="mailto:legal@snapfind.com">legal@snapfind.com</a>.</p>
+
+  <p class="note">This is a starting template, not legal advice. Have a lawyer review it before launch.</p>
+  <p><a href="index.html">← Back to home</a></p>
+</body>
+</html>
