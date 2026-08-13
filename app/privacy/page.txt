@@ -1,0 +1,74 @@
+import Link from "next/link";
+
+export const metadata = { title: "Privacy Policy — SnapFind" };
+
+export default function PrivacyPage() {
+  return (
+    <main className="mx-auto max-w-3xl px-6 py-14">
+      <p className="text-sm font-semibold uppercase tracking-wide text-[#1D4A60]">SnapFind</p>
+      <h1 className="mt-2 text-3xl font-black">Privacy Policy</h1>
+      <p className="mt-2 text-sm text-slate-500">Last updated: {new Date().toLocaleDateString()}</p>
+
+      <div className="mt-8 space-y-8 text-sm leading-relaxed text-slate-700">
+        <section>
+          <h2 className="text-lg font-bold text-slate-900">1. What we collect</h2>
+          <ul className="mt-2 list-disc space-y-1 pl-5">
+            <li><strong>Email address</strong> — if you join the waitlist, so we can contact you about early access.</li>
+            <li><strong>Images you upload</strong> — screenshots or photos used to run your visual search.</li>
+            <li><strong>Basic usage data</strong> — such as match results, item categories, and approximate region, used to improve match quality. We never sell this data.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2 className="text-lg font-bold text-slate-900">2. How we use uploaded images</h2>
+          <p className="mt-2">
+            Your image is processed by our visual search service to find matching products.
+            Images are used only to complete your search and to improve our matching accuracy,
+            and are not shared with retailers. We retain images only as long as needed and
+            delete them when no longer required.
+          </p>
+        </section>
+
+        <section>
+          <h2 className="text-lg font-bold text-slate-900">3. Affiliate links</h2>
+          <p className="mt-2">
+            SnapFind may earn a commission when you purchase through links we provide.
+            This never affects the price you pay or the results we show you.
+          </p>
+        </section>
+
+        <section>
+          <h2 className="text-lg font-bold text-slate-900">4. Cookies &amp; analytics</h2>
+          <p className="mt-2">
+            We may use minimal cookies or analytics tools to understand how the service is used
+            and to measure match-hit-rate. You can block cookies in your browser.
+          </p>
+        </section>
+
+        <section>
+          <h2 className="text-lg font-bold text-slate-900">5. Your rights</h2>
+          <p className="mt-2">
+            You may request access to, correction of, or deletion of your personal data at any
+            time by contacting us. We&apos;ll respond within a reasonable timeframe.
+          </p>
+        </section>
+
+        <section>
+          <h2 className="text-lg font-bold text-slate-900">6. Contact</h2>
+          <p className="mt-2">
+            Questions about this policy? Contact us at <a href="mailto:privacy@snapfind.com" className="text-[#1D4A60] underline">privacy@snapfind.com</a>.
+          </p>
+        </section>
+
+        <p className="rounded-xl bg-slate-50 p-4 text-xs text-slate-500">
+          This is a starting template, not legal advice. Have a lawyer review it before launch —
+          especially before applying to affiliate networks.
+        </p>
+      </div>
+
+      <p className="mt-10 text-sm">
+        <Link href="/" className="text-[#1D4A60] underline">← Back to home</Link>
+      </p>
+    </main>
+  );
+}

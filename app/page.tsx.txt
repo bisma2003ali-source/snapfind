@@ -1,0 +1,257 @@
+"use client";
+
+import { useState } from "react";
+import Link from "next/link";
+
+export default function LandingPage() {
+  const [email, setEmail] = useState("");
+  const [joined, setJoined] = useState(false);
+
+  async function joinWaitlist(e: React.FormEvent) {
+    e.preventDefault();
+    await fetch("/api/waitlist", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email }),
+    });
+    setJoined(true);
+  }
+
+  return (
+    <main className="mx-auto max-w-6xl px-6">
+      {/* ============ NAV ============ */}
+      <nav className="flex items-center justify-between py-6">
+        <span className="text-xl font-black tracking-tight text-[#1D4A60]">SNAPFIND</span>
+        <div className="hidden items-center gap-6 text-sm font-medium text-slate-600 md:flex">
+          <a href="#problem" className="hover:text-[#1D4A60]">The problem</a>
+          <a href="#solution" className="hover:text-[#1D4A60]">How it works</a>
+          <a href="#match" className="hover:text-[#1D4A60]">Match confidence</a>
+          <a href="#roadmap" className="hover:text-[#1D4A60]">Roadmap</a>
+        </div>
+        <Link
+          href="/search"
+          className="rounded-full bg-[#1D4A60] px-5 py-2 text-sm font-semibold text-white hover:bg-[#16394b]"
+        >
+          Try it now
+        </Link>
+      </nav>
+
+      {/* ============ HERO ============ */}
+      <section className="grid items-center gap-12 py-16 md:grid-cols-2">
+        <div>
+          <h1 className="text-5xl font-black leading-tight tracking-tight">
+            Find exactly what <span className="text-[#1D4A60]">they&apos;re wearing</span>
+          </h1>
+          <p className="mt-4 text-lg text-slate-600">
+            Saw a fit on Instagram, TikTok, or in the street? Upload the screenshot and
+            SnapFind returns the <strong>exact item</strong> with brand, price, and a
+            purchase link — or clearly labeled close alternatives when there&apos;s no
+            confirmed match.
+          </p>
+          <div className="mt-8 flex flex-wrap gap-3">
+            <Link
+              href="/search"
+              className="rounded-full bg-[#1D4A60] px-6 py-3 font-semibold text-white hover:bg-[#16394b]"
+            >
+              Upload a photo
+            </Link>
+            <a
+              href="#problem"
+              className="rounded-full border border-slate-300 px-6 py-3 font-semibold text-slate-700 hover:border-slate-400"
+            >
+              Why we exist
+            </a>
+          </div>
+        </div>
+        <div className="rounded-2xl bg-slate-100 p-10 text-center text-slate-400">
+          Demo video / screenshot goes here
+        </div>
+      </section>
+
+      {/* ============ THE PROBLEM ============ */}
+      <section id="problem" className="border-t border-slate-100 py-16">
+        <h2 className="text-3xl font-bold">The problem</h2>
+        <p className="mt-4 max-w-3xl text-slate-600">
+          You see an item of clothing — worn by someone else, in a photo, or in a screenshot
+          from social media — and want to know where to buy it. Often the person wearing it
+          doesn&apos;t know, doesn&apos;t remember, or can&apos;t be asked (it was a gift,
+          thrifted, or a stranger).
+        </p>
+        <p className="mt-3 max-w-3xl text-slate-600">
+          Generic tools like Google Lens or Pinterest Lens aren&apos;t built for exact-item
+          purchase intent — they frequently surface the same listing at full price instead of
+          a confident match or better options.
+        </p>
+      </section>
+
+      {/* ============ THE SOLUTION / HOW IT WORKS ============ */}
+      <section id="solution" className="border-t border-slate-100 py-16">
+        <h2 className="text-3xl font-bold">The solution</h2>
+        <p className="mt-4 max-w-3xl text-slate-600">
+          A visual search app for clothing: upload a screenshot or photo — or scan an item
+          live — and get the exact match with price and purchase details when available.
+          No exact match? You get close visual alternatives instead of a dead end.
+        </p>
+
+        <div className="mt-8 grid gap-6 md:grid-cols-3">
+          {[
+            ["📸", "1 · Save the screenshot", "From Instagram, TikTok, a saved image, or the camera roll — screenshot-first is how you already save outfit inspiration."],
+            ["🎯", "2 · We match it", "Multi-network search finds the exact item, not just similar vibes — with a transparent confidence label."],
+            ["🛍️", "3 · Buy it in one tap", "Brand, price, and a direct purchase link. No exact match? Clearly labeled close alternatives."],
+          ].map(([icon, t, d]) => (
+            <div key={t} className="rounded-2xl border border-slate-200 p-6">
+              <div className="text-3xl">{icon}</div>
+              <h3 className="mt-3 font-bold">{t}</h3>
+              <p className="mt-1 text-sm text-slate-600">{d}</p>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-6 grid gap-6 md:grid-cols-2">
+          <div className="rounded-2xl bg-slate-50 p-6">
+            <h3 className="font-bold">Capture methods</h3>
+            <ul className="mt-3 space-y-2 text-sm text-slate-700">
+              <li><strong>Primary:</strong> screenshot / photo upload — Instagram, TikTok, saved images, camera roll</li>
+              <li><strong>Secondary:</strong> live camera scan — for in-person moments</li>
+            </ul>
+          </div>
+          <div className="rounded-2xl bg-slate-50 p-6">
+            <h3 className="font-bold">Match behavior</h3>
+            <ul className="mt-3 space-y-2 text-sm text-slate-700">
+              <li>✅ <strong>Exact match found</strong> → brand, price, and a direct purchase link</li>
+              <li>👀 <strong>No exact match</strong> → close visual alternatives, clearly labeled as alternatives — never presented as the same item</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      {/* ============ MATCH CONFIDENCE / DIFFERENTIATION ============ */}
+      <section id="match" className="border-t border-slate-100 py-16">
+        <h2 className="text-3xl font-bold">No guessing games</h2>
+        <div className="mt-8 grid gap-4 md:grid-cols-2">
+          <div className="rounded-2xl border-2 border-green-200 bg-green-50 p-6">
+            <span className="inline-flex rounded-full bg-green-600 px-3 py-1 text-xs font-bold text-white">
+              ✓ EXACT MATCH
+            </span>
+            <p className="mt-3 text-sm text-slate-700">
+              We&apos;re confident this is the same item. Full brand, price, and purchase link.
+            </p>
+          </div>
+          <div className="rounded-2xl border border-slate-200 bg-slate-50 p-6">
+            <span className="inline-flex rounded-full bg-slate-400 px-3 py-1 text-xs font-bold text-white">
+              CLOSE ALTERNATIVE
+            </span>
+            <p className="mt-3 text-sm text-slate-700">
+              Similar, but <strong>not</strong> the same item. Labeled clearly so you never
+              mistake an alternative for the real thing.
+            </p>
+          </div>
+        </div>
+
+        <h3 className="mt-10 text-xl font-bold">What makes us different</h3>
+        <ul className="mt-4 space-y-3 text-slate-700">
+          <li>🏷️ <strong>Transparent match confidence</strong> — most competitors don&apos;t clearly distinguish exact matches from close alternatives</li>
+          <li>📸 <strong>Screenshot-first flow</strong> — matches how people already save outfit inspiration, not a forced live scan</li>
+          <li>🌐 <strong>Multi-network data stacking</strong> — aimed at a higher exact-match hit rate than single-network competitors</li>
+        </ul>
+
+        <div className="mt-10 rounded-2xl bg-[#1D4A60] p-8 text-white">
+          <h3 className="text-xl font-bold">How we source results</h3>
+          <ul className="mt-4 space-y-2 text-sm text-white/90">
+            <li>🔗 <strong>Multiple retailer data networks</strong> — we query several networks in sequence (starting with Rakuten Advertising, adding CJ/Awin next) so a gap in one network doesn&apos;t become a gap in your results</li>
+            <li>🖼️ <strong>Visual fallback</strong> — if retailer networks return nothing, a general visual search still catches a visual match, even without a guaranteed purchase link</li>
+            <li>🏬 <strong>Large multi-brand retailers first</strong> — ASOS, Zalando, Farfetch, SSENSE, Nordstrom — a handful of these carry thousands of brands each</li>
+          </ul>
+        </div>
+      </section>
+
+      {/* ============ ROADMAP ============ */}
+      <section id="roadmap" className="border-t border-slate-100 py-16">
+        <h2 className="text-3xl font-bold">Roadmap</h2>
+
+        <h3 className="mt-8 font-bold">Launch bar — we hold ourselves to this before opening to real users</h3>
+        <div className="mt-4 grid gap-4 md:grid-cols-3">
+          {[
+            ["≥ 60%", "of test scans return an exact match"],
+            ["≥ 85%", "return an exact match or a usable close alternative"],
+            ["< 15%", "return nothing usable"],
+          ].map(([n, d]) => (
+            <div key={n} className="rounded-2xl border border-slate-200 p-6 text-center">
+              <div className="text-3xl font-black text-[#1D4A60]">{n}</div>
+              <p className="mt-2 text-sm text-slate-600">{d}</p>
+            </div>
+          ))}
+        </div>
+        <p className="mt-4 max-w-3xl text-sm text-slate-500">
+          Benchmarked on an internal test set of 100–200 real-world screenshots across
+          well-known brands, mid-size retailers, and obscure/thrifted-style items. Match-hit-rate
+          is tracked continuously after launch — by category and by retailer — and drives our
+          retailer partnerships and country decisions.
+        </p>
+
+        <h3 className="mt-10 font-bold">Country rollout</h3>
+        <div className="mt-4 overflow-x-auto">
+          <table className="w-full min-w-[560px] border-collapse text-left text-sm">
+            <thead>
+              <tr className="bg-[#1D4A60] text-white">
+                <th className="px-4 py-2 font-semibold">Order</th>
+                <th className="px-4 py-2 font-semibold">Market</th>
+                <th className="px-4 py-2 font-semibold">Rationale</th>
+              </tr>
+            </thead>
+            <tbody className="text-slate-700">
+              {[
+                ["1", "United States", "Deepest affiliate network coverage; proves the model"],
+                ["2", "United Kingdom", "Strong retailer network coverage; lower competitive pressure than the US"],
+                ["3", "Canada", "High retailer overlap with the US; low extra integration cost"],
+                ["Hold", "Australia, UAE, EU (DE/FR)", "Revisit once usage data shows real demand; UAE/EU require localization"],
+              ].map(([o, m, r]) => (
+                <tr key={m} className="border-b border-slate-100">
+                  <td className="px-4 py-2 font-semibold">{o}</td>
+                  <td className="px-4 py-2 font-medium">{m}</td>
+                  <td className="px-4 py-2">{r}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <p className="mt-3 max-w-3xl text-sm text-slate-500">
+          Sequencing: launch US, monitor real match-hit-rate and conversion for 4–6 weeks,
+          then expand to UK, then Canada — decisions driven by actual usage data, not assumptions.
+        </p>
+      </section>
+
+      {/* ============ WAITLIST ============ */}
+      <section className="rounded-3xl bg-[#1D4A60] p-10 text-center text-white">
+        <h2 className="text-2xl font-bold">Launching in the US first</h2>
+        <p className="mt-2 text-white/80">Join the waitlist for early access.</p>
+        {joined ? (
+          <p className="mt-6 font-semibold">You&apos;re on the list 🎉</p>
+        ) : (
+          <form onSubmit={joinWaitlist} className="mx-auto mt-6 flex max-w-md gap-2">
+            <input
+              type="email"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="you@example.com"
+              className="w-full rounded-full px-5 py-3 text-slate-900 outline-none"
+            />
+            <button className="rounded-full bg-white px-6 py-3 font-semibold text-[#1D4A60] hover:bg-slate-100">
+              Join
+            </button>
+          </form>
+        )}
+      </section>
+
+      {/* ============ FOOTER ============ */}
+      <footer className="mt-16 flex flex-col items-center justify-between gap-4 border-t border-slate-100 py-10 text-sm text-slate-400 md:flex-row">
+        <span>© {new Date().getFullYear()} SnapFind · Working name, subject to change</span>
+        <div className="flex gap-6">
+          <Link href="/privacy" className="hover:text-[#1D4A60]">Privacy Policy</Link>
+          <Link href="/terms" className="hover:text-[#1D4A60]">Terms &amp; Conditions</Link>
+        </div>
+      </footer>
+    </main>
+  );
+}
