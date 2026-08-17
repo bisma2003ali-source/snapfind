@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SnapFind — Find exactly what they're wearing</title>
+<meta name="description" content="Upload a screenshot or photo of clothing and SnapFind finds the exact item — or close alternatives — with brand, price, and a purchase link." />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%231D4A60'/><text x='50' y='68' font-size='52' text-anchor='middle' fill='white' font-family='Arial' font-weight='bold'>S</text></svg>" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --primary: #1D4A60;
+    --primary-dark: #16394b;
+    --ink: #0f172a;
+    --muted: #475569;
+    --soft: #f8fafc;
+    --border: #e2e8f0;
+    --green-bg: #f0fdf4;
+    --green-border: #86efac;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color: var(--ink); background: #fff; line-height: 1.6; -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+  a { text-decoration: none; color: inherit; }
+  img { max-width: 100%; display: block; }
+
+  /* NAV */
+  nav { display: flex; align-items: center; justify-content: space-between; padding: 22px 0; }
+  .logo { font-size: 21px; font-weight: 900; letter-spacing: -0.5px; color: var(--primary); display: flex; align-items: center; gap: 9px; }
+  .logo-mark { width: 30px; height: 30px; background: var(--primary); color: #fff; border-radius: 8px; display: grid; place-items: center; font-size: 15px; font-weight: 800; }
+  .nav-links { display: flex; gap: 28px; font-size: 14px; font-weight: 500; color: var(--muted); }
+  .nav-links a:hover { color: var(--primary); }
+  .nav-cta { background: var(--primary); color: #fff !important; font-weight: 600; padding: 9px 20px; border-radius: 999px; font-size: 14px; }
+  .nav-cta:hover { background: var(--primary-dark); }
+
+  /* HERO */
+  header { background: linear-gradient(180deg, #f4f8fa 0%, #ffffff 100%); border-bottom: 1px solid var(--border); }
+  .hero { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 56px; align-items: center; padding: 72px 0 88px; }
+  h1 { font-size: 52px; font-weight: 900; line-height: 1.08; letter-spacing: -1.5px; }
+  h1 .accent { color: var(--primary); }
+  .sub { margin-top: 20px; font-size: 18px; color: var(--muted); max-width: 480px; }
+  .ctas { margin-top: 32px; display: flex; gap: 14px; flex-wrap: wrap; }
+  .btn { display: inline-block; padding: 14px 28px; border-radius: 999px; font-weight: 600; font-size: 15px; }
+  .btn-primary { background: var(--primary); color: #fff; }
+  .btn-primary:hover { background: var(--primary-dark); }
+  .btn-ghost { border: 1.5px solid #cbd5e1; color: #334155; }
+  .btn-ghost:hover { border-color: #94a3b8; }
+  .hero-note { margin-top: 18px; font-size: 13px; color: #94a3b8; }
+
+  /* HERO MOCKUP */
+  .mockup { background: #fff; border: 1px solid var(--border); border-radius: 20px; box-shadow: 0 24px 60px -24px rgba(29,74,96,0.25); padding: 18px; }
+  .mock-upload { border: 2px dashed #cbd5e1; border-radius: 14px; padding: 34px 20px; text-align: center; color: #94a3b8; font-size: 14px; background: var(--soft); }
+  .mock-upload .cam { font-size: 30px; display: block; margin-bottom: 8px; }
+  .mock-result { margin-top: 14px; border: 1px solid var(--border); border-radius: 14px; padding: 16px; }
+  .mock-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+  .badge { display: inline-block; font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 999px; letter-spacing: 0.3px; }
+  .badge-green { background: var(--green-bg); color: #15803d; border: 1px solid var(--green-border); }
+  .badge-gray { background: #f1f5f9; color: #475569; }
+  .mock-item { display: flex; gap: 12px; align-items: center; }
+  .mock-img { width: 58px; height: 70px; border-radius: 10px; background: linear-gradient(135deg, #cbd5e1, #94a3b8); flex-shrink: 0; }
+  .mock-item h4 { font-size: 14px; font-weight: 700; }
+  .mock-item p { font-size: 12px; color: var(--muted); }
+  .mock-price { font-size: 14px; font-weight: 800; color: var(--primary); margin-top: 2px; }
+  .mock-buy { margin-left: auto; background: var(--primary); color: #fff; font-size: 12px; font-weight: 700; padding: 7px 14px; border-radius: 999px; white-space: nowrap; }
+
+  /* SECTIONS */
+  section { padding: 84px 0; }
+  .sec-head { max-width: 640px; margin-bottom: 44px; }
+  .eyebrow { display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--primary); background: #eef4f7; padding: 5px 12px; border-radius: 999px; margin-bottom: 14px; }
+  h2 { font-size: 34px; font-weight: 800; letter-spacing: -0.8px; }
+  .sec-head p { margin-top: 12px; color: var(--muted); font-size: 16px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+  .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px; }
+  .card { border: 1px solid var(--border); border-radius: 18px; padding: 26px; background: #fff; }
+  .card .icon { font-size: 30px; }
+  .card h3 { margin-top: 12px; font-size: 17px; font-weight: 700; }
+  .card p { margin-top: 6px; font-size: 14px; color: var(--muted); }
+  .step-num { display: inline-block; font-size: 12px; font-weight: 800; color: #fff; background: var(--primary); border-radius: 999px; padding: 3px 10px; }
+  .tint { background: var(--soft); border-color: transparent; }
+
+  /* MATCH */
+  .match-exact { border: 2px solid var(--green-border); background: var(--green-bg); }
+  .dash { margin-top: 10px; padding-left: 18px; color: var(--muted); font-size: 14px; }
+  .dash li { margin-top: 6px; }
+  .dark { background: var(--primary); color: #fff; border-radius: 18px; padding: 30px; margin-top: 26px; }
+  .dark h3 { font-size: 18px; margin-bottom: 12px; }
+  .dark ul { list-style: none; }
+  .dark li { margin-top: 8px; font-size: 14px; opacity: 0.92; }
+
+  /* ROADMAP */
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+  .stat { text-align: center; border: 1px solid var(--border); border-radius: 18px; padding: 30px 20px; }
+  .stat .num { font-size: 40px; font-weight: 900; color: var(--primary); letter-spacing: -1px; }
+  .stat p { margin-top: 8px; font-size: 14px; color: var(--muted); }
+  .region-list { margin-top: 30px; border: 1px solid var(--border); border-radius: 18px; overflow: hidden; }
+  .region-row { display: flex; justify-content: space-between; align-items: center; padding: 16px 22px; border-bottom: 1px solid var(--border); font-size: 14px; }
+  .region-row:last-child { border-bottom: none; }
+  .region-row .order { font-weight: 800; color: var(--primary); }
+  .region-row .why { color: var(--muted); font-size: 13px; text-align: right; max-width: 55%; }
+
+  /* WAITLIST */
+  .waitlist { background: var(--soft); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .wait-box { max-width: 560px; margin: 0 auto; text-align: center; }
+  .wait-box p { color: var(--muted); margin-top: 12px; }
+  .wait-form { display: flex; gap: 10px; margin-top: 28px; }
+  .wait-form input { flex: 1; padding: 14px 18px; border: 1.5px solid var(--border); border-radius: 999px; font-size: 15px; outline: none; font-family: inherit; }
+  .wait-form input:focus { border-color: var(--primary); }
+  .wait-form button { padding: 14px 28px; border: none; border-radius: 999px; background: var(--primary); color: #fff; font-weight: 600; font-size: 15px; cursor: pointer; font-family: inherit; }
+  .wait-form button:hover { background: var(--primary-dark); }
+  .wait-thanks { display: none; margin-top: 28px; background: var(--green-bg); border: 1px solid var(--green-border); color: #15803d; font-weight: 600; padding: 16px; border-radius: 14px; }
+
+  /* FAQ */
+  details { border: 1px solid var(--border); border-radius: 14px; padding: 18px 22px; margin-top: 14px; }
+  summary { font-weight: 600; font-size: 15px; cursor: pointer; }
+  details p { margin-top: 10px; font-size: 14px; color: var(--muted); }
+
+  /* FOOTER */
+  footer { border-top: 1px solid var(--border); padding: 40px 0 56px; }
+  .foot { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; font-size: 13px; color: var(--muted); }
+  .foot-links { display: flex; gap: 22px; }
+  .foot-links a:hover { color: var(--primary); }
+
+  @media (max-width: 860px) {
+    .hero, .grid-3, .grid-2, .stats { grid-template-columns: 1fr; }
+    .hero { padding: 48px 0 64px; }
+    h1 { font-size: 38px; }
+    .nav-links { display: none; }
+    .wait-form { flex-direction: column; }
+    .region-row .why { max-width: 100%; text-align: left; margin-top: 4px; }
+    .region-row { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ================= NAV ================= -->
+<nav class="wrap">
+  <a href="#" class="logo"><span class="logo-mark">S</span>SNAPFIND</a>
+  <div class="nav-links">
+    <a href="#problem">The problem</a>
+    <a href="#how">How it works</a>
+    <a href="#match">Match confidence</a>
+    <a href="#faq">FAQ</a>
+  </div>
+  <a href="#waitlist" class="nav-cta">Join waitlist</a>
+</nav>
+
+<!-- ================= HERO ================= -->
+<header>
+  <div class="wrap hero">
+    <div>
+      <h1>Find exactly what <span class="accent">they&rsquo;re wearing</span></h1>
+      <p class="sub">Saw a fit on Instagram, TikTok, or in the street? Upload the screenshot and SnapFind returns the <strong>exact item</strong> with brand, price, and a purchase link — or clearly labeled close alternatives.</p>
+      <div class="ctas">
+        <a href="#waitlist" class="btn btn-primary">Join the waitlist</a>
+        <a href="#how" class="btn btn-ghost">See how it works</a>
+      </div>
+      <p class="hero-note">Launching in the US first · Free for users</p>
+    </div>
+
+    <!-- Product mockup -->
+    <div class="mockup">
+      <div class="mock-upload"><span class="cam">📷</span>Drop a screenshot or photo here</div>
+      <div class="mock-result">
+        <div class="mock-head">
+          <span class="badge badge-green">✓ EXACT MATCH · 97%</span>
+          <span style="font-size:11px;color:#94a3b8;">0.4s</span>
+        </div>
+        <div class="mock-item">
+          <div class="mock-img"></div>
+          <div>
+            <h4>Ribbed Knit Cardigan</h4>
+            <p>H&amp;M · Brown</p>
+            <div class="mock-price">$39.99</div>
+          </div>
+          <span class="mock-buy">Buy →</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ================= PROBLEM ================= -->
+<section id="problem">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">The problem</span>
+      <h2>You see it. You love it. You can&rsquo;t find it.</h2>
+      <p>Someone wears something great — in a photo, a video, or on the street. The wearer doesn&rsquo;t know or can&rsquo;t remember where it&rsquo;s from. Generic tools like Google Lens weren&rsquo;t built for exact-item purchase intent, and they keep surfacing the same listing at full price instead of the right match.</p>
+    </div>
+    <div class="grid-3">
+      <div class="card tint"><div class="icon">🔍</div><h3>Not built for buying</h3><p>General visual search shows you similar images, not the item with a price and a way to buy it.</p></div>
+      <div class="card tint"><div class="icon">💰</div><h3>Same old full price</h3><p>Even when you get a match, you rarely see better options or a confident answer.</p></div>
+      <div class="card tint"><div class="icon">🤷</div><h3>Dead ends</h3><p>When there&rsquo;s no exact match, most tools just fail silently — you&rsquo;re left with nothing.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= HOW IT WORKS ================= -->
+<section id="how" style="background:var(--soft);">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">How it works</span>
+      <h2>From screenshot to shopping in seconds</h2>
+    </div>
+    <div class="grid-3">
+      <div class="card">
+        <span class="step-num">1</span>
+        <h3>Snap or upload</h3>
+        <p>Drop in a screenshot from Instagram, TikTok, or your camera roll — or scan an item live with your camera.</p>
+      </div>
+      <div class="card">
+        <span class="step-num">2</span>
+        <h3>We find it</h3>
+        <p>Our visual search finds the exact item — not just similar vibes — and tells you how confident we are.</p>
+      </div>
+      <div class="card">
+        <span class="step-num">3</span>
+        <h3>Buy in one tap</h3>
+        <p>Brand, price, and a direct purchase link. No exact match? Clearly labeled close alternatives instead.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= MATCH CONFIDENCE ================= -->
+<section id="match">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Match confidence</span>
+      <h2>No guessing games</h2>
+      <p>Every result is labeled. You always know whether it&rsquo;s the real thing or just similar.</p>
+    </div>
+    <div class="grid-2">
+      <div class="card match-exact">
+        <span class="badge badge-green">✓ EXACT MATCH</span>
+        <h3>The real item</h3>
+        <p>We&rsquo;re confident this is the same item. Full brand, price, and purchase link.</p>
+      </div>
+      <div class="card">
+        <span class="badge badge-gray">CLOSE ALTERNATIVE</span>
+        <h3>Similar, not the same</h3>
+        <p>Visually close but <strong>not</strong> the same item — always labeled clearly so you never mistake an alternative for the real thing.</p>
+      </div>
+    </div>
+
+    <h2 style="font-size:24px;margin-top:64px;">What makes SnapFind different</h2>
+    <ul class="dash" style="margin-top:16px;font-size:15px;color:var(--ink);">
+      <li>🏷️ <strong>Transparent match confidence</strong> — exact vs. close alternative, always labeled. Most competitors don&rsquo;t clearly distinguish the two.</li>
+      <li>📸 <strong>Screenshot-first flow</strong> — matches how people already save outfit inspiration, instead of forcing a live scan.</li>
+      <li>🌐 <strong>Multi-network data stacking</strong> — we combine several retailer data networks for a higher exact-match hit rate than single-network competitors.</li>
+    </ul>
+
+    <div class="dark">
+      <h3>How we source results</h3>
+      <ul>
+        <li>🔗 <strong>Multiple retailer networks</strong> — queried in sequence (starting with Rakuten Advertising, adding CJ and Awin next), so a gap in one network never becomes a gap in your results.</li>
+        <li>🖼️ <strong>Visual fallback</strong> — when retailer networks return nothing, a general visual search still catches a match, even without a guaranteed purchase link.</li>
+        <li>🏬 <strong>Large multi-brand retailers first</strong> — ASOS, Zalando, Farfetch, SSENSE, Nordstrom — a handful of these carry thousands of brands each.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ROADMAP ================= -->
+<section id="roadmap" style="background:var(--soft);">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Roadmap</span>
+      <h2>The bar we hold ourselves to</h2>
+      <p>Before opening to real users, we benchmark against ~100–200 real-world screenshots:</p>
+    </div>
+    <div class="stats">
+      <div class="stat"><div class="num">≥ 60%</div><p>of test scans return an <strong>exact match</strong></p></div>
+      <div class="stat"><div class="num">≥ 85%</div><p>return an exact match or a <strong>usable close alternative</strong></p></div>
+      <div class="stat"><div class="num">&lt; 15%</div><p>return <strong>nothing usable</strong></p></div>
+    </div>
+
+    <div class="region-list">
+      <div class="region-row"><span><span class="order">1 · United States</span> — first launch</span><span class="why">Deepest retailer coverage; proves the model</span></div>
+      <div class="region-row"><span><span class="order">2 · United Kingdom</span></span><span class="why">Strong network coverage, lower competition</span></div>
+      <div class="region-row"><span><span class="order">3 · Canada</span></span><span class="why">High overlap with the US, low extra cost</span></div>
+      <div class="region-row"><span><span class="order" style="color:#94a3b8;">Hold · Australia, UAE, EU</span></span><span class="why">Revisit after Phase 1–3 usage data</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= WAITLIST ================= -->
+<section class="waitlist" id="waitlist">
+  <div class="wrap wait-box">
+    <span class="eyebrow">Launching soon</span>
+    <h2>Be first to find the fit</h2>
+    <p>Join the waitlist and get early access when SnapFind launches in the US. No spam — just one email when we&rsquo;re live.</p>
+    <form class="wait-form" onsubmit="return joinWaitlist(event)">
+      <input type="email" id="wl-email" placeholder="you@example.com" required />
+      <button type="submit">Notify me</button>
+    </form>
+    <div class="wait-thanks" id="wl-thanks">🎉 You&rsquo;re on the list! We&rsquo;ll email you at launch.</div>
+  </div>
+</section>
+
+<!-- ================= FAQ ================= -->
+<section id="faq">
+  <div class="wrap" style="max-width:760px;">
+    <div class="sec-head">
+      <span class="eyebrow">FAQ</span>
+      <h2>Questions, answered</h2>
+    </div>
+    <details open>
+      <summary>Is SnapFind free?</summary>
+      <p>Yes — SnapFind is free for users. We earn a commission when you buy through one of our links, at no extra cost to you.</p>
+    </details>
+    <details>
+      <summary>How accurate is it?</summary>
+      <p>We label every result. When we&rsquo;re confident it&rsquo;s the same item, you get an <strong>Exact Match</strong> badge. Otherwise you get clearly labeled <strong>Close Alternatives</strong> — never a silent failure.</p>
+    </details>
+    <details>
+      <summary>Do you sell the clothes?</summary>
+      <p>No. We find items and send you to the retailer to buy. Think of us as your search engine for fashion, not a store.</p>
+    </details>
+    <details>
+      <summary>What can I search?</summary>
+      <p>Any clothing screenshot or photo — from Instagram, TikTok, a saved image, or your camera roll. A live camera scan is coming soon.</p>
+    </details>
+    <details>
+      <summary>Where does SnapFind work?</summary>
+      <p>We launch in the United States first, then expand to the UK and Canada based on real usage data.</p>
+    </details>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer>
+  <div class="wrap foot">
+    <div>
+      <div class="logo" style="font-size:16px;"><span class="logo-mark" style="width:24px;height:24px;font-size:12px;">S</span>SNAPFIND</div>
+      <p style="margin-top:6px;">© <span id="year"></span> SnapFind. All rights reserved.</p>
+    </div>
+    <div class="foot-links">
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="terms.html">Terms &amp; Conditions</a>
+      <a href="mailto:snapfind@gmail.com">Contact</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.getElementById("year").textContent = new Date().getFullYear();
+  function joinWaitlist(e) {
+    e.preventDefault();
+    var email = document.getElementById("wl-email").value.trim();
+    var body = encodeURIComponent("Hi SnapFind,\n\nPlease add me to the launch waitlist.\n\nEmail: " + email);
+    var subject = encodeURIComponent("SnapFind waitlist signup");
+    // Opens a pre-filled email to snapfind@gmail.com — zero setup.
+    // (Upgrade later to a real form service like Formspree to auto-capture emails.)
+    window.location.href = "mailto:snapfind@gmail.com?subject=" + subject + "&body=" + body;
+    document.getElementById("wl-thanks").style.display = "block";
+    document.getElementById("wl-email").value = "";
+    return false;
+  }
+</script>
+</body>
+</html>
